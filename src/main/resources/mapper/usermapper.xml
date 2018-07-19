@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljq.demo.shiro.dao.UserDao">
+
+    <!-- 用户登录查询结果 userResultMap -->
+    <resultMap id="userResultMap" type="com.ljq.demo.shiro.entity.User">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="nickName" property="nickName" jdbcType="VARCHAR" />
+        <result column="account" property="account" jdbcType="VARCHAR" />
+        <result column="passcode" property="passcode" jdbcType="VARCHAR" />
+        <result column="createTime" property="createTime" jdbcType="VARCHAR" />
+        <result column="lastLoginTime" property="lastLoginTime" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+        <collection property="roleList" javaType="java.util.List" ofType="com.ljq.demo.shiro.entity.Role">
+            <id column="r_id" property="id" jdbcType="BIGINT" />
+            <result column="r_name" property="name" jdbcType="VARCHAR" />
+            <result column="r_type" property="type" jdbcType="VARCHAR" />
+            <collection property="permissionList" javaType="java.util.List" ofType="com.ljq.demo.shiro.entity.Permission">
+                <id column="p_id" property="id" jdbcType="BIGINT" />
+                <result column="p_apiUrl" property="apiUrl" jdbcType="VARCHAR" />
+                <result column="p_description" property="description" jdbcType="VARCHAR" />
+            </collection>
+        </collection>
+    </resultMap>
+
+    <!-- 用户登陆 -->
+    <select id="login" resultMap="userResultMap">
+        SELECT u.id, u.nickName, u.account, u.passcode, u.createTime, u.lastLoginTime, u.status,
+            r.id r_id, r.name r_name, r.type r_type,
+            p.id p_id, p.apiUrl p_apiUrl, p.description p_description
+        FROM t_user u
+        left join t_user_role ur
+        on u.id = ur.userId
+        left join t_role r
+        on ur.roleId = r.id
+        left join t_role_permission rp
+        on r.id = rp.roleId
+        left join t_permission p
+        on rp.permissionId = p.id
+        WHERE u.account = #{account}
+    </select>
+
+
+
+
+</mapper>
