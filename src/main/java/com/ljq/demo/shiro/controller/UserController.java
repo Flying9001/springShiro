@@ -1,16 +1,15 @@
 package com.ljq.demo.shiro.controller;
 
-import com.ljq.demo.shiro.common.api.ApiResult;
 import com.ljq.demo.shiro.common.log.Log;
 import com.ljq.demo.shiro.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @Description: 用户控制中心
@@ -26,22 +25,38 @@ public class UserController {
 
     /**
      * 用户登录
-     * @param params 用户信息
+     * @param model
      * @return 登录结果
      */
-    @RequestMapping(value = "login", method = RequestMethod.POST)
-    @ResponseBody
-    protected ApiResult login(@RequestBody String params){
-        ApiResult apiResult = null;
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    protected String login(Model model){
 
-        try {
-            apiResult = userService.login(params);
-        } catch (Exception e) {
-            Log.debug("user login error",e);
-            return apiResult.failure();
-        }
-
-        return apiResult;
+        Log.debug("用户登录请求-GET");
+        // get 请求跳转登录界面
+        return "login";
     }
+
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public String login(String username, String password, boolean rememberMe){
+
+        Log.debug("用户登录请求-POST");
+        // POST 请求用户登录操作,此处无需写登录的代码
+        // DefaultFormAuthenticationFilter 自动处理登录请求
+        // 登录失败此处字需要写少量失败逻辑,也可以不写
+
+        return "login";
+
+    }
+
+    @RequestMapping(value = "index", method = RequestMethod.POST)
+    public String index(Model model){
+
+        Log.debug("主页-POST");
+        return "login";
+
+    }
+
+
+
 
 }

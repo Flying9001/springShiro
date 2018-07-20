@@ -11,6 +11,7 @@ public enum ResponseCode {
 
     PARAMS_ERROR(1001,"参数错误"),
     ACCOUNT_NOT_EXIST(1002,"帐号不存在"),
+    ACCOUNT_LOCK(1003,"帐号被锁定"),
 
 
 

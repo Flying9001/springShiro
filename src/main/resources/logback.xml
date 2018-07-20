@@ -98,7 +98,7 @@
     <!--<logger name="com.ljq.test1" additivity="false" />-->
     <logger name="org.apache.ibatis.io" level="info" />
     <logger name="org.mybatis.spring" level="info" />
-    <logger name="o.s.b.factory.support" level="info" />
+    <logger name="org.springframework" level="info" />
 
 
 

@@ -55,8 +55,7 @@ public class UserServiceImpl implements UserService {
 
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("user",user);
-        System.out.println("user: " + user.toString());
-
+        Log.debug(user.toString());
         return ApiResult.success(resultMap);
     }
 

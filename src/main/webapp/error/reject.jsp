@@ -9,10 +9,10 @@
 <head>
     <base href="<%=basePath%>"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>SpringShiro</title>
+    <title>springShiro</title>
 </head>
 <body>
-<h2>Index</h2>
+<h2>没有权限,拒绝访问</h2>
 <h2><%=basePath %>
 </h2>
 

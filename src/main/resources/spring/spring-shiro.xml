@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- shiro 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!-- 单个 realm 只需要注入 realm 属性即可 -->
+        <!--<property name="realm" value="defaultRealm"></property>-->
+        <!-- realm 需要自己实现处理逻辑 -->
+
+        <!-- 多 realm 配置 -->
+        <property name="realms">
+            <list>
+                <ref bean="defaultRealm" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- shiro 过滤器,此处的 bean id 必须要和 web.xml 中的 shiro 过滤器保持一致 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- shiro 核心安全接口,必需属性 -->
+        <property name="securityManager" ref="securityManager" />
+        <!-- 登录链接(登录页面地址),非必需属性,默认web 根目录下的 /login.jsp 页面-->
+        <property name="loginUrl" value="/login" />
+        <!-- 登录成功后的跳转页面,非必需属性,不设置的话 shiro 自动跳转上次请求的路径 -->
+        <!--<property name="successUrl" value="/index" />-->
+        <!-- 用户访问未对其授权的资源时,所显示的链接 -->
+        <property name="unauthorizedUrl" value="/error/reject.jsp" />
+        <!-- 过滤器集合 -->
+        <property name="filters">
+            <map>
+                <entry key="authc" value-ref="formAuthenFilter" />
+                <entry key="logout" value-ref="logout" />
+                <entry key="roles" value-ref="formAuthenFilter" />
+                <entry key="index" value-ref="formAuthenFilter" />
+            </map>
+        </property>
+        <!-- 权限分配 -->
+        <property name="filterChainDefinitions">
+            <value>
+                /**/*.* = anon
+                /api/user/login = anon
+                /api/user/logout = logout
+                /api/user/index = index
+                /api/user/** =authc,roles["admin,dev,sale"]
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
+    <!-- 登录验证 filter -->
+    <bean id="formAuthenFilter" class="com.ljq.demo.shiro.filter.DefaultFormAuthenticactionFilter">
+        <property name="verificationCodeName" value="verificationCode" />
+    </bean>
+
+    <!-- 登出 filter -->
+    <!-- 无需在 Controller 中写登出代码,在项目请求路径后加 /logout 即可-->
+    <!-- eg: http://localhost:8080/springShiro/logout -->
+    <!-- logout 路径需要和 filterChainDefinitions 中的保持一致 -->
+    <bean id="logout" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+        <!-- 登出后跳转的页面 -->
+        <property name="redirectUrl" value="/login"/>
+    </bean>
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- 自定义 Realm -->
+    <bean id="defaultRealm" class="com.ljq.demo.shiro.security.DefaultRealm">
+
+    </bean>
+
+</beans>

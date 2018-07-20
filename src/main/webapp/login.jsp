@@ -12,9 +12,14 @@
     <title>SpringShiro</title>
 </head>
 <body>
-<h2>Index</h2>
-<h2><%=basePath %>
-</h2>
+<h2>UserLogin</h2>
+<h2><%=basePath %></h2>
+
+<form action="api/user/index" method="post">
+    登录: <input type="text" id="username"/><br>
+    密码: <input type="password" id="password"/><br>
+    <input type="submit" value="提交"/>
+</form>
 
 
 </body>

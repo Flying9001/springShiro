@@ -49,11 +49,20 @@
 
     <!-- 启用注解 -->
     <context:annotation-config />
+
+    <!-- 开启 Shiro 注解(eg: @RequestRoles,@RequestPermissions) -->
+    <!-- 需要借助 SpringAOP 扫描使用 Shiro 注解的类,并在必要时进行安全逻辑的验证 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
     <!-- 4.扫描web相关的bean -->
     <context:component-scan base-package="com.***">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
-    <aop:aspectj-autoproxy />
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+
 
     <!-- 文件上传 -->
     <bean id="multipartResolver"
