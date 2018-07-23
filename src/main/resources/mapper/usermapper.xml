@@ -42,6 +42,13 @@
         WHERE u.account = #{account}
     </select>
 
+    <!-- 根据帐号查询用户 -->
+    <select id="findByAccount" resultType="com.ljq.demo.shiro.entity.User">
+        select u.id, u.nickName, u.account, u.passcode, u.status, u.status
+        FROM t_user u
+        WHERE u.account = #{account}
+    </select>
+
 
 
 

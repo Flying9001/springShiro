@@ -8,7 +8,7 @@
 
 <div align=center> 
 
-<img src="img/shiro-1-1-create_maven_project.png" width="500" height="400" /> 
+<img src="img/shiro-1-1-create_maven_project.png" /> 
 
 </div> 
 
@@ -55,6 +55,36 @@ Redis 配置 `redis.properties` : [src/main/resources/redis.properties](../src/m
 mapper 文件路径: `src/main/resources/mapper/*.xml`  
 
 用户模块 mapper 文件: [src/main/resources/mapper/usermapper.xml](../src/main/resources/mapper/usermapper.xml)  
+
+### 7 整合 Shiro 框架    
+
+#### 7.1 配置文件
+
+`web.xml` 中添加 Shiro 的拦截器(`shiroFilter`) : [srcmain/webapp/WEB-INF/web.xml](../srcmain/webapp/WEB-INF/web.xml)  
+
+新增 `spring-shiro.xml` 配置文件: [src/main/resources/spring/spring-shiro.xml](../src/main/resources/spring/spring-shiro.xml)  
+
+修改 `spring-web.xml` 配置文件,开启 `Shiro` 相关注解: [src/main/resources/spring/spring-web.xml](../src/main/resources/spring/spring-web.xml)  
+
+#### 7.2 重要 java 类  
+
+自定义 `Realm` 实现类: [com.ljq.demo.shiro.security.DefaultRealm](../src/main/java/com/ljq/demo/shiro/security/DefaultRealm.java)  
+
+自定义拦截器 `Filter`: [com.ljq.demo.shiro.filter.DefaultFormAuthenticactionFilter](../src/main/java/com/ljq/demo/shiro/filter/DefaultFormAuthenticactionFilter.java)  
+
+#### 7.3 注意事项  
+
+按照本项目中 `Shiro` 的权限配置运行,则在**发布项目时不能够添加项目名称**  
+
+**正确** 登录页面访问路径: [http://localhost:8081/login.jsp](http://localhost:8081/login.jsp)  
+
+**错误** 登录页面访问路径: [http://localhost:8081/xxxDemo/login.jsp](http://localhost:8081/xxxDemo/login.jsp)  
+
+服务器(Tomcat) 配置截图:  
+
+<img src="img/shiro-1-2-tomcat.png" />
+
+
 
 
 

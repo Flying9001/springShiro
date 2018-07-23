@@ -29,19 +29,21 @@ public class DefaultRealm extends AuthorizingRealm {
 
 
     /**
-     * 为当前登录者分配角色和权限
-     * 当需要授权的资源被访问时调用该方法
+     * 判断当前 subject 中的用户是否具有权限/角色
+     * 当调用 subject,hasRole() 时执行
      *
      * @param principalCollection
      * @return
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        Log.debug("doGetAuthorizationInfo(PrincipalCollection)");
+
         // 登录用户的用户名
         String account = (String) super.getAvailablePrincipal(principalCollection);
         User user = new User();
         user.setAccount(account);
-        user = userDao.findByAccount(user);
+        user = userDao.login(user);
         Log.debug("当前授权的用户: " + user.toString());
 
         // 设置角色和权限
@@ -65,8 +67,8 @@ public class DefaultRealm extends AuthorizingRealm {
     }
 
     /**
-     * 验证当前登录的 subject
-     * 当调用 shubject.login() 时执行
+     * 判断当前 subject 中的用户是否存在
+     * 当调用 subject.login() 时执行
      *
      * @param authenticationToken
      * @return
@@ -74,13 +76,17 @@ public class DefaultRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+        Log.info("doGetAuthenticationInfo(AuthenticationToken)");
+
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         User user = new User();
         user.setAccount(token.getUsername());
         user = userDao.findByAccount(user);
         if(user == null){
+            Log.info(ResponseCode.ACCOUNT_NOT_EXIST.getMsg());
             throw new UnknownAccountException(ResponseCode.ACCOUNT_NOT_EXIST.getMsg());
         }else if(user.getStatus() == UserConstant.ACCOUNT_LOCKED){
+            Log.info(ResponseCode.ACCOUNT_LOCK.getMsg());
             throw new LockedAccountException(ResponseCode.ACCOUNT_LOCK.getMsg());
         }
 

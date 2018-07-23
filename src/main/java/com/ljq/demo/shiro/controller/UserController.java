@@ -8,9 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * @Description: 用户控制中心
  * @Author: junqiang.lu
@@ -44,7 +41,7 @@ public class UserController {
         // DefaultFormAuthenticationFilter 自动处理登录请求
         // 登录失败此处字需要写少量失败逻辑,也可以不写
 
-        return "login";
+        return "index";
 
     }
 
@@ -52,7 +49,7 @@ public class UserController {
     public String index(Model model){
 
         Log.debug("主页-POST");
-        return "login";
+        return "index";
 
     }
 
