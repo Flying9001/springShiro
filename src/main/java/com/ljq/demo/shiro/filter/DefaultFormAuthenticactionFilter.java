@@ -29,7 +29,7 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 
-        Log.debug("登录操作");
+        Log.debug("Filter-authorization");
 
         // 校验验证码操作
         HttpServletRequest req = WebUtils.toHttp(request);
@@ -58,14 +58,14 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
     @Override
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
-        Log.debug("登录成功" + usernamePasswordToken.getUsername());
+        Log.debug("Filter-Login success" + usernamePasswordToken.getUsername());
         return super.onLoginSuccess(token, subject, request, response);
     }
 
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
-        Log.debug("登录失败" + usernamePasswordToken.getUsername());
+        Log.debug("Filter-Login Failure" + usernamePasswordToken.getUsername());
         return super.onLoginFailure(token, e, request, response);
     }
 
@@ -78,13 +78,13 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
 
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
-        Log.debug("执行登录操作");
+        Log.debug("Filter-exeCuteLogin");
         return super.executeLogin(request, response);
     }
 
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
-        Log.debug("登录拦截器");
+        Log.debug("Filter-start intercept");
         Subject subject = SecurityUtils.getSubject();
         if(subject.isAuthenticated() && isLoginUrl(request)){
             // 如果已经登录,并且请求的是登录请求,则直接跳转之前的页面
@@ -98,7 +98,7 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        Log.debug("拦截器-是否允许访问");
+        Log.debug("Filter-isAccessAllowed");
         return super.isAccessAllowed(request, response, mappedValue);
     }
 
