@@ -7,14 +7,11 @@ import com.ljq.demo.shiro.constant.UserConstant;
 import com.ljq.demo.shiro.dao.UserDao;
 import com.ljq.demo.shiro.entity.Permission;
 import com.ljq.demo.shiro.entity.User;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -110,21 +107,6 @@ public class DefaultRealm extends AuthorizingRealm {
 
         return authenticationInfo;
     }
-
-    /**
-     * 设置 session
-     * @param key 键
-     * @param value 值
-     */
-    private void setSession(String key, Object value){
-
-        Subject subject = SecurityUtils.getSubject();
-        if(subject.isAuthenticated()){
-            Session session = subject.getSession();
-            session.setAttribute(key,value);
-        }
-    }
-
 
 
 }

@@ -47,15 +47,26 @@
         </property>
     </bean>
 
-    <!-- 会话管理器 -->
+    <!-- shiro session 会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <!-- 自定义 sessionDAO: 通过 Spring 注解注入 -->
+        <property name="sessionDAO" ref="redisSessionDAO" />
         <!-- session的失效时长 60min，单位毫秒 -->
         <property name="globalSessionTimeout" value="600000"/>
+        <!-- 相隔多久检查一次session的有效性   -->
+        <property name="sessionValidationInterval" value="300000"/>
         <!-- 删除失效的session -->
         <property name="deleteInvalidSessions" value="true"/>
     </bean>
     <!-- shiro 生命周期管理 -->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- 开启 Shiro 注解(eg: @RequestRoles,@RequestPermissions) -->
+    <!-- 需要借助 SpringAOP 扫描使用 Shiro 注解的类,并在必要时进行安全逻辑的验证 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
 
     <!-- 登录验证 filter: 通过 Spring 注解注入-->
     <!-- 自定义 Realm: 通过 Spring 注解注入-->

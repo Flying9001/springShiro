@@ -24,9 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 @Component("formAuthenFilter")
 public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
 
-    // 表单验证码中的 name,在 shiro 的配置文件中设置
-    private String verificationCodeName;
-
     /**
      * 拦截器最先执行的方法
      *
@@ -87,7 +84,6 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
                 return false;
             }
         }
-
         return super.isAccessAllowed(request, response, mappedValue);
     }
 
@@ -129,8 +125,6 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
         return super.onAccessDenied(request, response);
     }
 
-
-
     /**
      * 判断是否为登录操作
      * @param request 请求
@@ -158,12 +152,4 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
         return false;
     }
 
-
-    public String getVerificationCodeName() {
-        return verificationCodeName;
-    }
-
-    public void setVerificationCodeName(String verificationCodeName) {
-        this.verificationCodeName = verificationCodeName;
-    }
 }
