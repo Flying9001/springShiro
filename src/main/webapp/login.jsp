@@ -16,6 +16,7 @@
 <h2><%=basePath %></h2>
 
 <form action="/api/user/login" method="post">
+    <%-- 用户名和密码必须用 name 属性否则后台无法接收到参数 --%>
     登录: <input type="text" name="account" id="account"/><br>
     密码: <input type="password" name="passcode" id="passcode"/><br>
     <input type="submit" value="提交"/>

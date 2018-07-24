@@ -12,6 +12,7 @@ import java.io.Serializable;
 @Data
 public class UserConstant implements Serializable {
 
+    private static final long serialVersionUID = -7756182076349802261L;
     /**
      * 帐号状态
      */
@@ -19,15 +20,15 @@ public class UserConstant implements Serializable {
     public static final int ACCOUNT_LOCKED = -1;  // 被锁定
 
     /**
-     * 用户操作 URL
+     * 用户操作接口 URL
      */
     public static final String LOGIN_URL = "api/user/login";
+    public static final String LOGOUT_URL = "api/user/logout";
 
     /**
      * session 验证 key
      */
     public static final String VERIFICATION_KEY = "SESSION_VERIFICATION_KEY";
-
 
 
 }

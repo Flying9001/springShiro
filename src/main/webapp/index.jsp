@@ -16,6 +16,8 @@
 <h2><%=basePath %>
 </h2>
 
+<a href="/api/user/logout" >退出登录</a>
+
 
 </body>
 </html>

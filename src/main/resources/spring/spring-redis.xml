@@ -41,7 +41,6 @@
     <!--redis操作模版,使用该对象可以操作redis  -->
     <bean id="jedisTemplate" class="org.springframework.data.redis.core.RedisTemplate" >
         <property name="connectionFactory" ref="jedisConnectionFactory" />
-        <!--开启事务  -->
     </bean >
 
 </beans>

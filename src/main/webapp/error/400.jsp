@@ -9,12 +9,14 @@
     <head>
         <base href="<%=basePath%>"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Insert title here</title>
+        <title>400</title>
     </head>
 
     <body>
         <h2>400请求参数错误</h2>
         <h2><%=basePath %></h2>
+
+        <a href="/login.jsp" target="_self">返回登录页面</a>
     </body>
 
 </html>

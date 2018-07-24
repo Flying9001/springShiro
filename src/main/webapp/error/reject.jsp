@@ -12,8 +12,9 @@
     <title>springShiro</title>
 </head>
 <body>
-<h2>没有权限,拒绝访问</h2>
-<h2><%=basePath %>
+    <h2>没有权限,拒绝访问</h2>
+    <h2><%=basePath %>
+    <a href="/login.jsp" target="_self">返回登录页面</a>
 </h2>
 
 

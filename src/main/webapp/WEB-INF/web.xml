@@ -64,6 +64,23 @@
         <welcome-file>/login.jsp</welcome-file>
     </welcome-file-list>
 
+    <!--<error-page>-->
+        <!--<exception-type>java.lang.Throwable</exception-type>-->
+        <!--<location>/error/500.jsp</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>500</error-code>-->
+        <!--<location>/error/500.jsp</location>-->
+    <!--</error-page>-->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error/404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>400</error-code>
+        <location>/error/400.jsp</location>
+    </error-page>
+
     <!-- 配置SESSION超时，单位是分钟 -->
     <session-config>
         <session-timeout>15</session-timeout>

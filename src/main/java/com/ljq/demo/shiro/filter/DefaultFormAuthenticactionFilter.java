@@ -10,6 +10,7 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Author: junqiang.lu
  * @Date: 2018/7/20
  */
+@Component("formAuthenFilter")
 public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
 
     // 表单验证码中的 name,在 shiro 的配置文件中设置
@@ -37,13 +39,21 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
         Log.debug("Filter-start intercept");
         Subject subject = SecurityUtils.getSubject();
-//        if(subject.isAuthenticated() && isLoginUrl(request)){
-//            // 如果已经登录,并且请求的是登录请求,则直接跳转之前的页面
-//            SavedRequest savedRequest = WebUtils.getSavedRequest(request);
-//            String redirectUtl = savedRequest != null ? savedRequest.getRequestURI() : savedRequest.getRequestUrl();
-//            WebUtils.redirectToSavedRequest(request,response,redirectUtl);
-//            return false;
-//        }
+        if(subject.isAuthenticated() && isLoginUrl(request)){
+            Log.debug("重复登录");
+            // 如果已经登录,并且请求的是登录请求,则直接跳转之前的页面
+            SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+            String redirectUtl = savedRequest != null ? savedRequest.getRequestUrl() : super.getSuccessUrl();
+            WebUtils.redirectToSavedRequest(request,response,redirectUtl);
+            return false;
+        }
+        /**
+         * 是否为 登出操作
+         */
+        if(subject.isAuthenticated() && isLogoutUrl(request)){
+            Log.debug("用户退出");
+            subject.logout();
+        }
         return super.preHandle(request, response);
     }
 
@@ -60,8 +70,6 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         Log.debug("Filter-isAccessAllowed");
 
-        String account = WebUtils.getCleanParam(request,"account");
-
         /**
          * 判断是否为 登录请求
          */
@@ -71,7 +79,7 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
             user.setAccount(req.getParameter("account"));
             user.setPasscode(req.getParameter("passcode"));
             Subject subject = SecurityUtils.getSubject();
-            subject.hasRole("ddd");
+            subject.hasRole("admin");
             try {
                 subject.login(new UsernamePasswordToken(user.getAccount(),user.getPasscode()));
             } catch (AuthenticationException e) {
@@ -79,6 +87,7 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
                 return false;
             }
         }
+
         return super.isAccessAllowed(request, response, mappedValue);
     }
 
@@ -130,6 +139,20 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
     private boolean isLoginUrl(ServletRequest request){
         HttpServletRequest req = WebUtils.toHttp(request);
         if((req.getRequestURL().toString()).contains(UserConstant.LOGIN_URL)){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 是否为登出操作
+     *
+     * @param request
+     * @return
+     */
+    private boolean isLogoutUrl(ServletRequest request){
+        HttpServletRequest req = WebUtils.toHttp(request);
+        if((req.getRequestURL().toString()).contains(UserConstant.LOGOUT_URL)){
             return true;
         }
         return false;

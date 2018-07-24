@@ -22,17 +22,12 @@ public class UserController {
 
     /**
      * 用户登录
-     * @param model
-     * @return 登录结果
+     *
+     * @param username
+     * @param password
+     * @param rememberMe
+     * @return
      */
-    @RequestMapping(value = "login", method = RequestMethod.GET)
-    protected String login(Model model){
-
-        Log.debug("用户登录请求-GET");
-        // get 请求跳转登录界面
-        return "login";
-    }
-
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(String username, String password, boolean rememberMe){
 
@@ -47,11 +42,22 @@ public class UserController {
 
     @RequestMapping(value = "index", method = RequestMethod.POST)
     public String index(Model model){
-
         Log.debug("主页-POST");
         return "index";
-
     }
+
+    /**
+     * 退出登录
+     *
+     * @return
+     */
+    @RequestMapping(value = "logout",method = {RequestMethod.GET,RequestMethod.POST})
+    protected String logout(){
+        Log.debug("退出登录");
+        return "login";
+    }
+
+
 
 
 
