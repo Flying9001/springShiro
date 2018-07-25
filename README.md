@@ -15,15 +15,15 @@
 
 - 1) `jack` 用户,非 `admin` 角色,也没有 `api/user/updateUserInfo` 权限  
 
-<img src="D:/develop/repository/git/shiro/doc/img/shiro-1-3-shiroDemo-jack.gif" />
+<img src="doc/img/shiro-1-3-shiroDemo-jack.gif" />
 
 - 2) `jerry` 用户, 非 `admin` 角色,拥有 `api/user/updateUserInfo` 权限  
 
-<img src="D:/develop/repository/git/shiro/doc/img/shiro-1-4-shiroDemo-jerry.gif" />
+<img src="doc/img/shiro-1-4-shiroDemo-jerry.gif" />
 
 - 3） `tom` 用户, 拥有 `admin` 角色,同时拥有 `api/user/updateUserInfo` 权限  
 
-<img src="D:/develop/repository/git/shiro/doc/img/shiro-1-5-shiroDemo-tom.gif" />
+<img src="doc/img/shiro-1-5-shiroDemo-tom.gif" />
 
 
 

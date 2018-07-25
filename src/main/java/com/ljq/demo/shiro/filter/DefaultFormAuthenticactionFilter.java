@@ -42,7 +42,6 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
          */
         if(subject.isAuthenticated() && isLoginUrl(req)){
             Log.debug("重复登录,用户名: " + subject.getPrincipal());
-            // 如果已经登录,并且请求的是登录请求,则直接跳转之前的页面
             SavedRequest savedRequest = WebUtils.getSavedRequest(request);
             String redirectUtl = savedRequest != null ? savedRequest.getRequestUrl() : super.getSuccessUrl();
             WebUtils.redirectToSavedRequest(request,response,redirectUtl);

@@ -50,9 +50,6 @@ public class UserServiceImpl implements UserService {
             return new ApiResult(ResponseCode.PARAMS_ERROR);
         }
 
-        // TODO 将用户权限放到 Redis 缓存中
-
-
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("user",user);
         Log.debug(user.toString());

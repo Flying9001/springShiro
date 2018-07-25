@@ -1,7 +1,6 @@
 package com.ljq.demo.shiro.security;
 
 import com.ljq.demo.shiro.common.api.ResponseCode;
-import com.ljq.demo.shiro.common.cache.RedisCacheManager;
 import com.ljq.demo.shiro.common.log.Log;
 import com.ljq.demo.shiro.constant.UserConstant;
 import com.ljq.demo.shiro.dao.UserDao;
@@ -26,14 +25,6 @@ public class DefaultRealm extends AuthorizingRealm {
 
     @Autowired
     private UserDao userDao;
-    @Autowired
-    RedisCacheManager redisCacheManager;
-
-    private static final String AUTHORIZATION_CACHE_NAME = "authorization";
-
-    public DefaultRealm() {
-        super.setAuthorizationCacheName(AUTHORIZATION_CACHE_NAME);
-    }
 
     /**
      * 判断当前 subject 中的用户是否具有权限/角色
@@ -103,9 +94,6 @@ public class DefaultRealm extends AuthorizingRealm {
          */
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user.getAccount(),user.getPasscode(),
                 ByteSource.Util.bytes(ByteSource.Util.bytes(user.getAccount())),getName());
-
-        // TODO setSession 将用户信息存入 session/redis
-
 
         return authenticationInfo;
     }

@@ -25,10 +25,5 @@ public class UserConstant implements Serializable {
     public static final String LOGIN_URL = "api/user/login";
     public static final String LOGOUT_URL = "api/user/logout";
 
-    /**
-     * session 验证 key
-     */
-    public static final String VERIFICATION_KEY = "SESSION_VERIFICATION_KEY";
-
 
 }

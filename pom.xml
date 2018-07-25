@@ -9,7 +9,7 @@
     <version>1.0.0</version>
     <packaging>war</packaging>
 
-    <name>shiro Maven Webapp</name>
+    <name>springShiro</name>
 
     <!-- 公共属性设置 -->
     <properties>
@@ -41,7 +41,7 @@
 
     <!-- jdk -->
     <build>
-        <finalName>shiro</finalName>
+        <finalName>springShiro</finalName>
         <plugins>
             <!-- maven compiler plugin -->
             <plugin>

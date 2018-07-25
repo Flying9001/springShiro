@@ -1,8 +1,6 @@
 package com.ljq.demo.shiro.controller;
 
 import com.ljq.demo.shiro.common.log.Log;
-import com.ljq.demo.shiro.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("api/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
 
     /**
      * 用户登录
