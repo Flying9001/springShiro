@@ -107,7 +107,7 @@ mapper 文件路径: `src/main/resources/mapper/*.xml`
                 /login.jsp* = anon
                 /error/** = anon
                 /api/user/checkRole* = roles[admin]
-                /api/user/checkPermission* = perms["api/user/updateUserPermission"]
+                /api/user/checkPermission* = perms["api/user/updateUserInfo"]
                 /api/user/** =authc
                 /** = authc
             </value>
@@ -124,7 +124,21 @@ eg:   [http://localhost:8081/login.jsp](http://localhost:8081/login.jsp)   和 [
 - anon : 表明无需权限即可访问  
 - authc : 表明需要认证之后才可以访问, 需要重写 `Filter` 来自定义认证  
 - roles[admin] : 表明只有属于 `admin` 角色的用户才可以访问,如果设置多个角色,所有角色名称在双引号( `""` )内,角色之间用逗号( `,` )分割,eg: `roles["admin,dev"]`   ，表明拥有 `admin` 或 `dev` 角色的用户可以访问  
-- perms["api/user/updateUserPermission"]: 表明拥有 `api/user/updateUserPermission` 权限的用户可以访问, `[]` 内填写的时权限 URL ,可以为 `api/user/xxx`,也可以为 `user:xxx`  
+- perms["api/user/updateUserInfo"]: 表明拥有 `api/user/updateUserInfo` 权限的用户可以访问, `[]` 内填写权限 URL ,可以为 `api/user/xxx`,也可以为 `user:xxx`  
+
+#### 7.6 shiro 权限管理项目演示  
+
+- 1) `jack` 用户,非 `admin` 角色,也没有 `api/user/updateUserInfo` 权限  
+
+<img src="img/shiro-1-3-shiroDemo-jack.gif" />
+
+- 2) `jerry` 用户, 非 `admin` 角色,拥有 `api/user/updateUserInfo` 权限  
+
+<img src="img/shiro-1-4-shiroDemo-jerry.gif" />
+
+- 3） `tom` 用户, 拥有 `admin` 角色,同时拥有 `api/user/updateUserInfo` 权限  
+
+<img src="img/shiro-1-5-shiroDemo-tom.gif" />
 
 
 
