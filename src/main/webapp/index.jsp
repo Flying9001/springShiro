@@ -16,7 +16,10 @@
 <h2><%=basePath %>
 </h2>
 
-<a href="/api/user/logout" >退出登录</a>
+<a href="/api/user/logout" >退出登录</a><br><br>
+
+<a href="login.jsp">登录页面</a>
+
 
 
 </body>

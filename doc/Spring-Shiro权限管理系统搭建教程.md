@@ -90,6 +90,8 @@ mapper 文件路径: `src/main/resources/mapper/*.xml`
 
 更改 shiro session 缓存,需要重写 sessionDAO 方法  
 
+**当使用 Redis 接管 shiro session 缓存之后,服务器重启不会导致 session 失效,只有用户登出或 session 过期才会失效**  
+
 具体参考: [com.ljq.demo.shiro.common.cache.RedisSessionDAO](../src/main/java/com/ljq/demo/shiro/common/cache/RedisSessionDAO.java)  
 
 

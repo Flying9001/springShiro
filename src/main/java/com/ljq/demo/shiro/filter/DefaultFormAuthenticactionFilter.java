@@ -36,20 +36,21 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
         Log.debug("Filter-start intercept");
         Subject subject = SecurityUtils.getSubject();
-        if(subject.isAuthenticated() && isLoginUrl(request)){
-            Log.debug("重复登录");
+        HttpServletRequest req = WebUtils.toHttp(request);
+        /**
+         * 校验 重复登录 与 登出 操作
+         */
+        if(subject.isAuthenticated() && isLoginUrl(req)){
+            Log.debug("重复登录,用户名: " + subject.getPrincipal());
             // 如果已经登录,并且请求的是登录请求,则直接跳转之前的页面
             SavedRequest savedRequest = WebUtils.getSavedRequest(request);
             String redirectUtl = savedRequest != null ? savedRequest.getRequestUrl() : super.getSuccessUrl();
             WebUtils.redirectToSavedRequest(request,response,redirectUtl);
             return false;
-        }
-        /**
-         * 是否为 登出操作
-         */
-        if(subject.isAuthenticated() && isLogoutUrl(request)){
-            Log.debug("用户退出");
+        }else if(subject.isAuthenticated() && isLogoutUrl(req)){
+            Log.debug("用户退出,用户名: " + subject.getPrincipal());
             subject.logout();
+            return true;
         }
         return super.preHandle(request, response);
     }
@@ -71,7 +72,7 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
          * 判断是否为 登录请求
          */
         HttpServletRequest req = WebUtils.toHttp(request);
-        if(isLoginUrl(request) && req.getMethod().equalsIgnoreCase(POST_METHOD)){
+        if(isLoginUrl(req) && req.getMethod().equalsIgnoreCase(POST_METHOD)){
             User user = new User();
             user.setAccount(req.getParameter("account"));
             user.setPasscode(req.getParameter("passcode"));
@@ -130,9 +131,8 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
      * @param request 请求
      * @return
      */
-    private boolean isLoginUrl(ServletRequest request){
-        HttpServletRequest req = WebUtils.toHttp(request);
-        if((req.getRequestURL().toString()).contains(UserConstant.LOGIN_URL)){
+    private boolean isLoginUrl(HttpServletRequest request){
+        if((request.getRequestURL().toString()).contains(UserConstant.LOGIN_URL)){
             return true;
         }
         return false;
@@ -144,9 +144,8 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
      * @param request
      * @return
      */
-    private boolean isLogoutUrl(ServletRequest request){
-        HttpServletRequest req = WebUtils.toHttp(request);
-        if((req.getRequestURL().toString()).contains(UserConstant.LOGOUT_URL)){
+    private boolean isLogoutUrl(HttpServletRequest request){
+        if((request.getRequestURL().toString()).contains(UserConstant.LOGOUT_URL)){
             return true;
         }
         return false;

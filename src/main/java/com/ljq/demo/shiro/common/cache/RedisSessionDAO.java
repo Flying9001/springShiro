@@ -1,6 +1,5 @@
 package com.ljq.demo.shiro.common.cache;
 
-import com.ljq.demo.shiro.common.log.Log;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
@@ -37,7 +36,6 @@ public class RedisSessionDAO extends AbstractSessionDAO {
     @Override
     protected Serializable doCreate(Session session) {
         Serializable sessionId = this.generateSessionId(session);
-        Log.debug("shiro redis session [create]. sessionId = " + sessionId);
         this.assignSessionId(session, sessionId);
         redisTemplate.opsForValue().set(generateKey(sessionId), session, session.getTimeout(), TimeUnit.MILLISECONDS);
         return sessionId;
@@ -45,20 +43,17 @@ public class RedisSessionDAO extends AbstractSessionDAO {
 
     @Override
     protected Session doReadSession(Serializable sessionID) {
-        Log.debug("shiro redis session [read]. sessionId = " + sessionID);
         return (Session) redisTemplate.opsForValue().get(generateKey(sessionID));
     }
 
     @Override
     public void update(Session session) throws UnknownSessionException {
-        Log.debug("shiro redis session [update]. sessionId = " + session.getId());
         redisTemplate.opsForValue().set(generateKey(session.getId()), session, session.getTimeout(),
                 TimeUnit.MILLISECONDS);
     }
 
     @Override
     public void delete(Session session) {
-        Log.debug("shiro redis session [delete]. sessionId = " + session.getId());
         redisTemplate.delete(generateKey(session.getId()));
     }
 
@@ -72,7 +67,6 @@ public class RedisSessionDAO extends AbstractSessionDAO {
         for (Object key : keySet) {
             sessionSet.add((Session) redisTemplate.opsForValue().get(key));
         }
-        Log.debug("shiro redis session [all]. size = " + sessionSet.size());
         return sessionSet;
     }
 
