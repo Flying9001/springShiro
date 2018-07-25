@@ -90,9 +90,43 @@ mapper 文件路径: `src/main/resources/mapper/*.xml`
 
 更改 shiro session 缓存,需要重写 sessionDAO 方法  
 
-**当使用 Redis 接管 shiro session 缓存之后,服务器重启不会导致 session 失效,只有用户登出或 session 过期才会失效**  
+**当使用 Redis 接管 shiro session 缓存之后,关闭浏览器不会导致 session 失效,服务器重启也不会导致 session 失效,只有用户登出或 session 过期才会失效**  
 
 具体参考: [com.ljq.demo.shiro.common.cache.RedisSessionDAO](../src/main/java/com/ljq/demo/shiro/common/cache/RedisSessionDAO.java)  
+
+#### 7.5 关于 shiro 的权限配置说明    
+
+```xml
+<!-- shiro 过滤器,此处的 bean id 必须要和 web.xml 中的 shiro 过滤器保持一致 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+       <!-- 此处省略其它配置 -->
+       
+        <!-- 权限分配 -->
+        <property name="filterChainDefinitions">
+            <value>
+                /login.jsp* = anon
+                /error/** = anon
+                /api/user/checkRole* = roles[admin]
+                /api/user/checkPermission* = perms["api/user/updateUserPermission"]
+                /api/user/** =authc
+                /** = authc
+            </value>
+        </property>
+    </bean>
+```
+
+- `/login.jsp*` : 拦截项目根目录下的 `login.jsp` 请求链接,在 `login.jsp` 后边添加参数,也一并拦截  
+
+eg:   [http://localhost:8081/login.jsp](http://localhost:8081/login.jsp)   和 [http://localhost:8081/login.jsp?username=xxxx](http://localhost:8081/login.jsp?username=xxxx)  
+
+`/error/**` , `/api/*`  等属于同样的道理  
+
+- anon : 表明无需权限即可访问  
+- authc : 表明需要认证之后才可以访问, 需要重写 `Filter` 来自定义认证  
+- roles[admin] : 表明只有属于 `admin` 角色的用户才可以访问,如果设置多个角色,所有角色名称在双引号( `""` )内,角色之间用逗号( `,` )分割,eg: `roles["admin,dev"]`   ，表明拥有 `admin` 或 `dev` 角色的用户可以访问  
+- perms["api/user/updateUserPermission"]: 表明拥有 `api/user/updateUserPermission` 权限的用户可以访问, `[]` 内填写的时权限 URL ,可以为 `api/user/xxx`,也可以为 `user:xxx`  
+
+
 
 
 

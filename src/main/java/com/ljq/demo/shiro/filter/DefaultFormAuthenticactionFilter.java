@@ -77,7 +77,6 @@ public class DefaultFormAuthenticactionFilter extends FormAuthenticationFilter {
             user.setAccount(req.getParameter("account"));
             user.setPasscode(req.getParameter("passcode"));
             Subject subject = SecurityUtils.getSubject();
-            subject.hasRole("admin");
             try {
                 subject.login(new UsernamePasswordToken(user.getAccount(),user.getPasscode()));
             } catch (AuthenticationException e) {

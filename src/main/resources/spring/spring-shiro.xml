@@ -41,6 +41,8 @@
             <value>
                 /login.jsp* = anon
                 /error/** = anon
+                /api/user/checkRole* = roles[admin]
+                /api/user/checkPermission* = perms["api/user/updateUserPermission"]
                 /api/user/** =authc
                 /** = authc
             </value>

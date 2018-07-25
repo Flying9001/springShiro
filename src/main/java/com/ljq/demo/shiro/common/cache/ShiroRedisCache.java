@@ -48,7 +48,7 @@ public class ShiroRedisCache<K,V> implements Cache<K,V> {
      */
     @Override
     public V put(K key, V value) throws CacheException {
-        Log.debug("key: " + key + " , value: " + value);
+        Log.debug("key: " + key);
         redisTemplate.opsForValue().set(key, value, this.expireTime, TimeUnit.SECONDS);
         return value;
     }

@@ -37,7 +37,7 @@ public class DefaultRealm extends AuthorizingRealm {
 
     /**
      * 判断当前 subject 中的用户是否具有权限/角色
-     * 当调用 subject,hasRole() 时执行
+     * 当调用 subject.hasRole() 时执行
      *
      * @param principalCollection
      * @return
@@ -61,11 +61,13 @@ public class DefaultRealm extends AuthorizingRealm {
          */
         for (int i = 0; i < user.getRoleList().size(); i++) {
             authorizationInfo.addRole(user.getRoleList().get(i).getName());
+            Log.debug("拥有的角色: " + user.getRoleList().get(i).getName());
             /**
              * 添加权限
              * 需要从redis/数据库查询
              */
             for (Permission permission : user.getRoleList().get(i).getPermissionList()) {
+                Log.debug("拥有的权限: " + permission.getApiUrl());
                 authorizationInfo.addStringPermission(permission.getApiUrl());
             }
         }
