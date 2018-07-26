@@ -4,6 +4,8 @@
 
 项目搭建操作步骤: [Spring-Shiro权限管理系统搭建教程](doc/Spring-Shiro权限管理系统搭建教程.md)  
 
+权限数据库模型: [springShiro权限管理系统数据库模型.pdf](doc/springShiro权限管理系统数据库模型.pdf)  
+
 ## 1 权限架构描述
 
 - 一个**用户**可以拥有多个**角色**  
