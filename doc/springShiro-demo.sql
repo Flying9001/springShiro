@@ -17,9 +17,14 @@ INSERT INTO t_role(`name`,`type`)
 
 -- 添加角色权限
 INSERT INTO t_role_permission(`roleId`,`permissionId`)
-    VALUES(2,1),
-          (2,3),
-          (3,1);
+    VALUES (1,1),
+           (1,2),
+           (1,3),
+           (1,4),
+           (1,5),
+           (2,1),
+           (2,3),
+           (3,1);
 
 -- 添加员工  
 INSERT INTO t_user(`account`, `passcode`, `nickName`, `createTime`, `lastLoginTime`)
