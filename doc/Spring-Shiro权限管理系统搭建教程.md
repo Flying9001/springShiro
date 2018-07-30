@@ -60,7 +60,7 @@ mapper 文件路径: `src/main/resources/mapper/*.xml`
 
 #### 7.1 配置文件
 
-`web.xml` 中添加 Shiro 的拦截器(`shiroFilter`) : [srcmain/webapp/WEB-INF/web.xml](../srcmain/webapp/WEB-INF/web.xml)  
+`web.xml` 中添加 Shiro 的拦截器(`shiroFilter`) : [src/main/webapp/WEB-INF/web.xml](../src/main/webapp/WEB-INF/web.xml)  
 
 新增 `spring-shiro.xml` 配置文件: [src/main/resources/spring/spring-shiro.xml](../src/main/resources/spring/spring-shiro.xml)  
 

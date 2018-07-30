@@ -53,12 +53,19 @@
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <!-- 自定义 sessionDAO: 通过 Spring 注解注入 -->
         <property name="sessionDAO" ref="redisSessionDAO" />
+        <!-- shiro session cookie -->
+        <property name="sessionIdCookie" ref="simpleCookie"/>
         <!-- session的失效时长 60min，单位毫秒 -->
         <property name="globalSessionTimeout" value="600000"/>
         <!-- 相隔多久检查一次session的有效性   -->
         <property name="sessionValidationInterval" value="300000"/>
         <!-- 删除失效的session -->
         <property name="deleteInvalidSessions" value="true"/>
+    </bean>
+    <!-- shiro session cookie -->
+    <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg name="name" value="shiro.sesssion"/>
+        <property name="path" value="/"/>
     </bean>
     <!-- shiro 生命周期管理 -->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
